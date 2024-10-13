@@ -14,7 +14,7 @@
         outputs: 1,
         icon: "compare.svg",
         label: function () {
-            return this.name || "compare";
+            return this.name || this.operator || "compare";
         },
         oneditprepare: function () {
             const valueRow = $("#node-input-value").parent();
