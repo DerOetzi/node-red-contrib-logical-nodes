@@ -1,9 +1,13 @@
 {
     "name": "node-red-contrib-logical-nodes",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "A collection of logical nodes for Node-RED",
     "author": "Johannes Ott",
     "license": "MIT",
+    "keywords": [
+        "node-red",
+        "logical"
+    ],
     "scripts": {
         "build": "tsc"
     },
@@ -18,7 +22,8 @@
     "node-red": {
         "nodes": {
             "and": "nodes/and.js",
-            "or": "nodes/or.js"
+            "or": "nodes/or.js",
+            "not": "nodes/not.js"
         }
     }
 }
