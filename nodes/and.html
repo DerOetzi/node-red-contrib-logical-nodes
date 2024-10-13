@@ -4,13 +4,23 @@
         color: '#a6bbcf',
         defaults: {
             name: { value: "" },
-            topic: { value: "" }
+            topic: { value: "topic" },
+            topicType: { value: "msg" },
+            newMsg: { value: false },
+            msgCount: { value: 1, validate: RED.validators.number() }
         },
         inputs: 1,
         outputs: 1,
         icon: "and.svg",
         label: function () {
             return this.name || "and";
+        },
+        oneditprepare: function () {
+            $("#node-input-topic").typedInput({
+                type: "msg",
+                types: ["msg", "str"],
+                typeField: "#node-input-topicType",
+            });
         }
     });
 </script>
@@ -23,7 +33,16 @@
     </div>
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-cog"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="Topic" required>
+        <input type="text" id="node-input-topic" required>
+        <input type="hidden" id="node-input-topicType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-newmsg"><i class="fa fa-check"></i> New Message</label>
+        <input type="checkbox" id="node-input-newMsg">
+    </div>
+    <div class="form-row">
+        <label for="node-input-msgcount"><i class="fa fa-cog"></i> Message Count</label>
+        <input type="number" id="node-input-msgCount" min="1" required>
     </div>
 </script>
 
@@ -31,25 +50,29 @@
 <script type="text/html" data-help-name="and">
     <h3>AND Node</h3>
     <p>
-        Die AND-Node führt eine logische UND-Verknüpfung (AND) für eingehende Nachrichten durch.
-        Sie speichert Payloads basierend auf Topics und verknüpft alle eingegangenen Werte,
-        wobei nur dann 'true' ausgegeben wird, wenn alle Payloads 'true' sind.
+        The AND Node performs a logical AND operation on incoming messages. It compares incoming payloads against configurable "truthy values" and outputs 'true' only if all values match the defined criteria.
     </p>
-    
-    <h3>Inputs</h3>
+
+    <h3>Parameters</h3>
     <dl class="message-properties">
         <dt>payload</dt>
-        <dd>Der logische Wert, der geprüft wird. Erwartet einen boolean.</dd>
+        <dd>The logical value to be checked. Expected to be a boolean, string, or a value from a list.</dd>
 
         <dt>topic</dt>
-        <dd>Das Topic, unter dem die Payload gespeichert wird.</dd>
+        <dd>The topic under which the payload is stored.</dd>
+
+        <dt>New Message</dt>
+        <dd>Generates a new message instead of updating the existing one.</dd>
+
+        <dt>Message count</dt>
+        <dd>The number of distinct topics required before output.</dd>
     </dl>
 
     <h3>Outputs</h3>
     <dl class="message-properties">
         <dt>payload</dt>
-        <dd>Gibt das Ergebnis der AND-Operation zurück.</dd>
+        <dd>Returns the result of the AND operation.</dd>
         <dt>topic</dt>
-        <dd>Gibt das konfigurierte oder übergebene Topic weiter.</dd>
+        <dd>Returns the configured or incoming topic.</dd>
     </dl>
 </script>

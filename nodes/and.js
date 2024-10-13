@@ -1,30 +1,31 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 module.exports = function (RED) {
-    // Definition der AndNode-Funktion
     function AndNode(config) {
         RED.nodes.createNode(this, config);
         const node = this;
-        const topics = {}; // Objekte zur Speicherung der Topics und Payloads
+        const topics = {};
+        const msgCount = config.msgCount || 1;
+        node.status({ fill: "grey", shape: "ring", text: "no message" });
         node.on('input', (msg) => {
-            // Speichere Payload nach Topic
             topics[msg.topic] = msg.payload;
-            // Verunde alle Payloads
-            const result = Object.values(topics).reduce((a, b) => a && b, true);
-            // Setze das topic in der Nachricht, falls konfiguriert
-            msg.topic = config.topic || msg.topic;
-            msg.payload = result;
-            // Setze den Status basierend auf dem Ergebnis
-            if (result) {
-                node.status({ fill: "green", shape: "dot", text: "true" });
+            if (Object.keys(topics).length >= msgCount) {
+                const result = Object.values(topics).every((value) => value === true);
+                const topicValue = RED.util.evaluateNodeProperty(config.topic, config.topicType, this, msg);
+                if (config.newMsg) {
+                    msg = { payload: result, topic: topicValue };
+                }
+                else {
+                    msg.payload = result;
+                    msg.topic = topicValue;
+                }
+                node.status({ fill: result ? "green" : "red", shape: "dot", text: result.toString() });
+                node.send(msg);
             }
             else {
-                node.status({ fill: "red", shape: "dot", text: "false" });
+                node.status({ fill: "yellow", shape: "ring", text: "waiting" });
             }
-            // Sende die Nachricht weiter
-            node.send(msg);
         });
     }
-    // Registrierung des Node-Typs in Node-RED
     RED.nodes.registerType('and', AndNode);
 };
