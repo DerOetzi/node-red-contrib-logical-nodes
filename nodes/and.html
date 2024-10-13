@@ -1,0 +1,55 @@
+<script type="text/javascript" id="and">
+    RED.nodes.registerType('and', {
+        category: 'logical',
+        color: '#a6bbcf',
+        defaults: {
+            name: { value: "" },
+            topic: { value: "" }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "and.svg",
+        label: function () {
+            return this.name || "and";
+        }
+    });
+</script>
+
+<!-- Node template -->
+<script type="text/html" data-template-name="and">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-cog"></i> Topic</label>
+        <input type="text" id="node-input-topic" placeholder="Topic" required>
+    </div>
+</script>
+
+<!-- Help description -->
+<script type="text/html" data-help-name="and">
+    <h3>AND Node</h3>
+    <p>
+        Die AND-Node führt eine logische UND-Verknüpfung (AND) für eingehende Nachrichten durch.
+        Sie speichert Payloads basierend auf Topics und verknüpft alle eingegangenen Werte,
+        wobei nur dann 'true' ausgegeben wird, wenn alle Payloads 'true' sind.
+    </p>
+    
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload</dt>
+        <dd>Der logische Wert, der geprüft wird. Erwartet einen boolean.</dd>
+
+        <dt>topic</dt>
+        <dd>Das Topic, unter dem die Payload gespeichert wird.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload</dt>
+        <dd>Gibt das Ergebnis der AND-Operation zurück.</dd>
+        <dt>topic</dt>
+        <dd>Gibt das konfigurierte oder übergebene Topic weiter.</dd>
+    </dl>
+</script>
