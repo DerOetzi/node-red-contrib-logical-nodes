@@ -1,20 +1,46 @@
 # node-red-contrib-logical-nodes
 
-**Version**: 0.1.0
+**Version**: 0.2.0
 
 ## Description
 
-`node-red-contrib-logical-nodes` is a collection of logical nodes for Node-RED. This package includes logical **AND**, **OR**, and **NOT** nodes that allow you to perform basic logical operations on incoming messages.
+`node-red-contrib-logical-nodes` is a collection of logical nodes for Node-RED. This package includes logical **AND**, **OR**, **NOT**, and **Boolean** nodes that allow you to perform basic logical operations on incoming messages.
 
 ## Nodes
 
-- **AND Node**: Performs a logical AND operation on the payloads from different topics. Outputs `true` only when all values are `true`.
-- **OR Node**: Performs a logical OR operation. Outputs `true` when at least one value is `true`.
-- **NOT Node**: Inverts the boolean value of the incoming payload.
+### AND Node
+
+Performs a logical AND operation on the payloads from different topics. Outputs `true` only when all values are `true`.
+
+- **msgCount**: The number of distinct topics required before the output is triggered.
+- **newMsg**: Generates a new message with the result if set to `true`.
+- **topic**: Specifies the topic for the output message.
+
+### OR Node
+
+Performs a logical OR operation. Outputs `true` when at least one value is `true`.
+
+- **msgCount**: The number of distinct topics required before the output is triggered.
+- **newMsg**: Similar behavior as in AND Node.
+- **topic**: Specifies the topic for the output message.
+
+### NOT Node
+
+Inverts the boolean value of the incoming payload.
+
+- **newMsg**: Generates a new message instead of modifying the existing one.
+- **topic**: Specifies the topic for the output message.
+
+### Boolean Node
+
+Routes the message to different outputs based on the boolean payload. If the payload is `true`, the message is routed to the first output; if `false`, to the second output.
+
+- **topic**: Specifies the topic for the output message.
 
 ## Installation
 
-You can install this package directly within Node-RED by using the **Manage Palette** option or via npm:
+Install this package directly within Node-RED using the **Manage Palette** option or via npm:
 
 ```bash
 npm install node-red-contrib-logical-nodes
+```
