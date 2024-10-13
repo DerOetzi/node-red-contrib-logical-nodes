@@ -1,0 +1,78 @@
+<script type="text/javascript" id="or">
+    RED.nodes.registerType('or', {
+        category: 'logical',
+        color: '#a6bbcf',
+        defaults: {
+            name: { value: "" },
+            topic: { value: "topic" },
+            topicType: { value: "msg" },
+            newMsg: { value: false },
+            msgCount: { value: 1, validate: RED.validators.number() }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "or.svg",
+        label: function () {
+            return this.name || "or";
+        },
+        oneditprepare: function () {
+            $("#node-input-topic").typedInput({
+                type: "msg",
+                types: ["msg", "str"],
+                typeField: "#node-input-topicType",
+            });
+        }
+    });
+</script>
+
+<!-- Node template -->
+<script type="text/html" data-template-name="or">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-cog"></i> Topic</label>
+        <input type="text" id="node-input-topic" required>
+        <input type="hidden" id="node-input-topicType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-newmsg"><i class="fa fa-check"></i> New Message</label>
+        <input type="checkbox" id="node-input-newMsg">
+    </div>
+    <div class="form-row">
+        <label for="node-input-msgcount"><i class="fa fa-cog"></i> Message Count</label>
+        <input type="number" id="node-input-msgCount" min="1" required>
+    </div>
+</script>
+
+<!-- Help description -->
+<script type="text/html" data-help-name="or">
+    <h3>OR Node</h3>
+    <p>
+        The OR Node performs a logical OR operation on incoming messages. It outputs 'true' if at least one of the incoming payloads is true.
+    </p>
+
+    <h3>Parameters</h3>
+    <dl class="message-properties">
+        <dt>payload</dt>
+        <dd>The logical value to be checked. Expected to be a boolean, string, or a value from a list.</dd>
+
+        <dt>topic</dt>
+        <dd>The topic under which the payload is stored.</dd>
+
+        <dt>New Message</dt>
+        <dd>Generates a new message instead of updating the existing one.</dd>
+
+        <dt>Message count</dt>
+        <dd>The number of distinct topics required before output.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload</dt>
+        <dd>Returns the result of the OR operation.</dd>
+        <dt>topic</dt>
+        <dd>Returns the configured or incoming topic.</dd>
+    </dl>
+</script>

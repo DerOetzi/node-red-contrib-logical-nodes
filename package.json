@@ -17,7 +17,8 @@
     },
     "node-red": {
         "nodes": {
-            "and": "nodes/and.js"
+            "and": "nodes/and.js",
+            "or": "nodes/or.js"
         }
     }
 }
