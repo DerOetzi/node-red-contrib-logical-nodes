@@ -1,0 +1,104 @@
+<script type="text/javascript" id="compare">
+    RED.nodes.registerType('compare', {
+        category: 'logical-nodes',
+        color: '#a6bbcf',
+        defaults: {
+            name: { value: "" },
+            property: { value: "payload" },
+            propertyType: { value: "msg" },
+            operator: { value: "eq" },
+            value: { value: "" },
+            valueType: { value: "str" }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "compare.svg",
+        label: function () {
+            return this.name || "compare";
+        },
+        oneditprepare: function () {
+            const valueRow = $("#node-input-value").parent();
+            $("#node-input-property").typedInput({
+                type: "msg",
+                types: ["msg"]
+            });
+            $("#node-input-value").typedInput({
+                type: "str",
+                types: ["str", "num", "msg"]
+            });
+
+            $("#node-input-operator").on("change", function () {
+                const operator = $(this).val();
+                if (["true", "false", "empty", "not_empty"].includes(operator)) {
+                    valueRow.hide(); // Hide the value field for operators that don't require comparison value
+                } else {
+                    valueRow.show(); // Show the value field for operators that require comparison
+                }
+            });
+
+            $("#node-input-operator").trigger("change");
+        }
+    });
+</script>
+
+<!-- Node template -->
+<script type="text/html" data-template-name="compare">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-property"><i class="fa fa-cog"></i> Property</label>
+        <input type="text" id="node-input-property" required>
+        <input type="hidden" id="node-input-propertyType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-operator"><i class="fa fa-equals"></i> Operator</label>
+        <select id="node-input-operator">
+            <option value="eq">==</option>
+            <option value="neq">!=</option>
+            <option value="lt">&lt;</option>
+            <option value="lte">&lt;=</option>
+            <option value="gt">&gt;</option>
+            <option value="gte">&gt;=</option>
+            <option value="true">is true</option>
+            <option value="false">is false</option>
+            <option value="empty">is empty</option>
+            <option value="not_empty">is not empty</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-value"><i class="fa fa-check"></i> Compare to</label>
+        <input type="text" id="node-input-value" required>
+        <input type="hidden" id="node-input-valueType">
+    </div>
+</script>
+
+<!-- Help description -->
+<script type="text/html" data-help-name="compare">
+    <h3>Compare Node</h3>
+    <p>
+        The Compare Node allows for conditional routing of incoming messages based on a wide variety of comparison operators.
+        It evaluates a property from the incoming message and compares it against a specified value.
+    </p>
+
+    <h3>Parameters</h3>
+    <dl class="message-properties">
+        <dt>property</dt>
+        <dd>The property of the message to be compared (e.g., `msg.payload`).</dd>
+
+        <dt>operator</dt>
+        <dd>The comparison operator. Available operators include `==`, `!=`, `>`, `<`, `>=`, `<=`, `is true`, `is false`, `is empty`, `is not empty`.</dd>
+
+        <dt>value</dt>
+        <dd>The value against which the property will be compared.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>First Output</dt>
+        <dd>Outputs the message if the comparison evaluates to `true`.</dd>
+        <dt>Second Output</dt>
+        <dd>Outputs the message if the comparison evaluates to `false`.</dd>
+    </dl>
+</script>

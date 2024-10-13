@@ -4,7 +4,7 @@
 
 ## Description
 
-`node-red-contrib-logical-nodes` is a collection of logical nodes for Node-RED. This package includes logical **AND**, **OR**, **NOT**, and **Boolean** nodes that allow you to perform basic logical operations on incoming messages.
+`node-red-contrib-logical-nodes` is a collection of logical nodes for Node-RED. This package includes logical **AND**, **OR**, **NOT**, **Boolean**, and **Compare** nodes that allow you to perform basic logical operations on incoming messages.
 
 ## Nodes
 
@@ -37,10 +37,17 @@ Routes the message to different outputs based on the boolean payload. If the pay
 
 - **topic**: Specifies the topic for the output message.
 
+### Compare Node
+
+Evaluates a property from the incoming message and compares it to a value using a variety of operators (e.g., `==`, `!=`, `<`, `>`, `is true`, `is false`, etc.).
+
+- **property**: The property of the message to be compared (e.g., `msg.payload`).
+- **operator**: The comparison operator. Available operators include `==`, `!=`, `>`, `<`, `>=`, `<=`, `is true`, `is false`, `is empty`, `is not empty`.
+- **value**: The value to compare against (for relevant operators).
+
 ## Installation
 
 Install this package directly within Node-RED using the **Manage Palette** option or via npm:
 
 ```bash
 npm install node-red-contrib-logical-nodes
-```
