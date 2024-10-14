@@ -1,6 +1,6 @@
 {
     "name": "@deroetzi/node-red-contrib-logical-nodes",
-    "version": "0.4.1",
+    "version": "0.5.1",
     "description": "A collection of logical nodes for Node-RED",
     "author": "Johannes Ott",
     "license": "MIT",

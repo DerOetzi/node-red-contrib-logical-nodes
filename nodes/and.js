@@ -4,11 +4,13 @@ module.exports = function (RED) {
     function AndNode(config) {
         RED.nodes.createNode(this, config);
         const node = this;
-        const topics = {};
+        const context = this.context();
         const msgCount = config.msgCount || 1;
         node.status({ fill: "grey", shape: "ring", text: "no message" });
         node.on('input', (msg) => {
+            const topics = context.get('topics') || {};
             topics[msg.topic] = msg.payload;
+            context.set('topics', topics);
             if (Object.keys(topics).length >= msgCount) {
                 const result = Object.values(topics).every((value) => value === true);
                 const topicValue = RED.util.evaluateNodeProperty(config.topic, config.topicType, this, msg);

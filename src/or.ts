@@ -12,13 +12,15 @@ module.exports = function (RED: NodeAPI) {
     function OrNode(this: Node, config: OrNodeConfig): void {
         RED.nodes.createNode(this, config);
         const node = this;
-        const topics: Record<string, any> = {};
+        const context = node.context();
         const msgCount = config.msgCount || 1;
 
         node.status({ fill: "grey", shape: "ring", text: "no message" });
 
         node.on('input', (msg: any) => {
+            const topics: Record<string, any> = context.get('topics') || {}
             topics[msg.topic] = msg.payload;
+            context.set('topics', topics);
 
             if (Object.keys(topics).length >= msgCount) {
                 const result = Object.values(topics).some((value: any) => value === true);

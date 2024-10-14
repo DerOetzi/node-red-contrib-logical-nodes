@@ -4,16 +4,17 @@ module.exports = function (RED) {
     function BooleanNode(config) {
         RED.nodes.createNode(this, config);
         const node = this;
+        node.status({ fill: "grey", shape: "ring", text: "no message" });
         node.on('input', (msg) => {
+            const result = msg.payload;
             const topicValue = RED.util.evaluateNodeProperty(config.topic, config.topicType, this, msg);
-            // Setze das Topic für die Nachricht
             msg.topic = topicValue;
-            // Basierend auf dem Payload routen
-            if (msg.payload === true) {
-                node.send([msg, null]); // Weiterleitung an den ersten Ausgang für true
+            node.status({ fill: result === true ? "green" : "red", shape: "dot", text: result.toString() });
+            if (result === true) {
+                node.send([msg, null]);
             }
             else {
-                node.send([null, msg]); // Weiterleitung an den zweiten Ausgang für false
+                node.send([null, msg]);
             }
         });
     }
