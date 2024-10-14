@@ -4,6 +4,9 @@
         color: '#a6bbcf',
         defaults: {
             name: { value: "" },
+            topic: { value: "topic" },
+            topicType: { value: "msg" },
+            newMsg: { value: false },
             property: { value: "payload" },
             propertyType: { value: "msg" },
             operator: { value: "eq" },
@@ -18,10 +21,17 @@
         },
         oneditprepare: function () {
             const valueRow = $("#node-input-value").parent();
+            $("#node-input-topic").typedInput({
+                type: "msg",
+                types: ["msg", "str"],
+                typeField: "#node-input-topicType",
+            });
+
             $("#node-input-property").typedInput({
                 type: "msg",
                 types: ["msg"]
             });
+
             $("#node-input-value").typedInput({
                 type: "str",
                 types: ["str", "num", "msg"]
@@ -46,6 +56,15 @@
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-cog"></i> Topic</label>
+        <input type="text" id="node-input-topic" required>
+        <input type="hidden" id="node-input-topicType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-newmsg"><i class="fa fa-check"></i> New Message</label>
+        <input type="checkbox" id="node-input-newMsg">
     </div>
     <div class="form-row">
         <label for="node-input-property"><i class="fa fa-cog"></i> Property</label>
@@ -84,6 +103,11 @@
 
     <h3>Parameters</h3>
     <dl class="message-properties">
+        <dt>topic</dt>
+        <dd>The topic under which the payload is stored.</dd>
+        
+        <dt>New Message</dt>
+        <dd>Generates a new message instead of updating the existing one.</dd>
         <dt>property</dt>
         <dd>The property of the message to be compared (e.g., `msg.payload`).</dd>
 

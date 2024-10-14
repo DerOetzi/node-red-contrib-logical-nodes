@@ -46,7 +46,15 @@ module.exports = function (RED) {
                     node.error(`Invalid operator: ${config.operator}`);
                     return;
             }
+            const topicValue = RED.util.evaluateNodeProperty(config.topic, config.topicType, this, msg);
             node.status({ fill: result ? "green" : "red", shape: "dot", text: result.toString() });
+            if (config.newMsg) {
+                msg = { payload: result, topic: topicValue };
+            }
+            else {
+                msg.payload = result;
+                msg.topic = topicValue;
+            }
             node.send(msg);
         });
     }

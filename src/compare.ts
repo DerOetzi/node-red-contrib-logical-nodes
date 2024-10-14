@@ -2,6 +2,9 @@ import { NodeAPI, Node, NodeDef } from 'node-red';
 
 // Typdefinition für das Node-Konfigurationsobjekt
 interface CompareNodeConfig extends NodeDef {
+    topic: string;
+    topicType: string;  
+    newMsg: boolean;  
     property: string;
     propertyType: string;
     operator: string;
@@ -60,7 +63,19 @@ module.exports = function (RED: NodeAPI) {
                     return;
             }
 
+            const topicValue = RED.util.evaluateNodeProperty(config.topic, config.topicType, this, msg);
+
+
             node.status({ fill: result ? "green" : "red", shape: "dot", text: result.toString() });
+            
+            
+            if (config.newMsg) {
+                msg = { payload: result, topic: topicValue };
+            } else {
+                msg.payload = result;
+                msg.topic = topicValue;
+            }
+            
             node.send(msg);
         });
     }

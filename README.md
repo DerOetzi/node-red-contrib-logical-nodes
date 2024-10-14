@@ -1,6 +1,6 @@
 # node-red-contrib-logical-nodes
 
-**Version**: 0.2.0
+**Version**: 0.4.1
 
 ## Description
 
@@ -41,6 +41,8 @@ Routes the message to different outputs based on the boolean payload. If the pay
 
 Evaluates a property from the incoming message and compares it to a value using a variety of operators (e.g., `==`, `!=`, `<`, `>`, `is true`, `is false`, etc.).
 
+- **newMsg**: Generates a new message with the result if set to `true`.
+- **topic**: Specifies the topic for the output message.
 - **property**: The property of the message to be compared (e.g., `msg.payload`).
 - **operator**: The comparison operator. Available operators include `==`, `!=`, `>`, `<`, `>=`, `<=`, `is true`, `is false`, `is empty`, `is not empty`.
 - **value**: The value to compare against (for relevant operators).
@@ -50,4 +52,5 @@ Evaluates a property from the incoming message and compares it to a value using 
 Install this package directly within Node-RED using the **Manage Palette** option or via npm:
 
 ```bash
-npm install node-red-contrib-logical-nodes
+npm install @deroetzi/node-red-contrib-logical-nodes
+```
